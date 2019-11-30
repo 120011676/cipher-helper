@@ -1,0 +1,9 @@
+version '0.0.1'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    implementation 'org.bouncycastle:bcprov-jdk15on:latest.release'
+    implementation "org.springframework.boot:spring-boot-autoconfigure:latest.release"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:latest.release"
+}

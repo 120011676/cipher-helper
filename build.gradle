@@ -1,0 +1,77 @@
+plugins {
+    id "base"
+}
+
+description = 'rsa springboot helper'
+
+allprojects {
+    group = 'com.github.120011676'
+    version = '0.0.1'
+
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+
+    sourceCompatibility = 13
+
+    java {
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+
+                pom {
+                    name = 'vine'
+                    description = 'credential helper'
+                    url = 'https://github.com/120011676/rsa-springboot-helper'
+                    licenses {
+                        license {
+                            name = 'The MIT License (MIT)'
+                            url = 'https://mit-license.org'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = '120011676'
+                            name = 'Say.li'
+                            email = '120011676@qq.com'
+                        }
+                    }
+                    scm {
+                        connection = 'git@github.com:120011676/rsa-springboot-helper.git'
+                        developerConnection = 'git@github.com:120011676/rsa-springboot-helper.git'
+                        url = 'https://github.com/120011676/rsa-springboot-helper'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                credentials {
+                    username = maven_username
+                    password = maven_password
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.mavenJava
+    }
+}
