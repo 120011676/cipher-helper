@@ -2,7 +2,7 @@ plugins {
     id "base"
 }
 
-description = 'rsa springboot helper'
+description = 'rsa helper'
 
 allprojects {
     group = 'com.github.120011676'
@@ -37,7 +37,7 @@ subprojects {
                 pom {
                     name = 'vine'
                     description = 'credential helper'
-                    url = 'https://github.com/120011676/rsa-springboot-helper'
+                    url = 'https://github.com/120011676/rsa-helper'
                     licenses {
                         license {
                             name = 'The MIT License (MIT)'
@@ -52,9 +52,9 @@ subprojects {
                         }
                     }
                     scm {
-                        connection = 'git@github.com:120011676/rsa-springboot-helper.git'
-                        developerConnection = 'git@github.com:120011676/rsa-springboot-helper.git'
-                        url = 'https://github.com/120011676/rsa-springboot-helper'
+                        connection = 'git@github.com:120011676/rsa-helper.git'
+                        developerConnection = 'git@github.com:120011676/rsa-helper.git'
+                        url = 'https://github.com/120011676/rsa-helper'
                     }
                 }
             }
