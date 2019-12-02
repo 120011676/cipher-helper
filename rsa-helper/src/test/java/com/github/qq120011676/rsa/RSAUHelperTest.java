@@ -23,10 +23,13 @@ public class RSAUHelperTest {
         String testPasswordPrivateLocation = path + "test_password";
         String password = "123456";
         rsauHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation, password);
+        testPasswordPrivateLocation = path + "app_private_key.pem";
+        rsauHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation);
         StringBuilder content = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             content.append("中文");
         }
+        System.out.println(content);
         String w = rsauHelper.encryptPublicByBase64(content.toString());
         String m = rsauHelper.decryptPrivateByBase64(w);
         System.out.println(content.toString().equals(m));
