@@ -1,11 +1,15 @@
 package com.github.qq120011676.rsa;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 public class RSAUHelperTest {
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
         String path = RSAUHelperTest.class.getResource("/").getPath() + "../../../resources/test/";
         String testPublicLocation = path + "test.pub";
         String testPrivateLocation = path + "test";
@@ -19,6 +23,12 @@ public class RSAUHelperTest {
         String testPasswordPrivateLocation = path + "test_password";
         String password = "123456";
         rsauHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation, password);
-
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            content.append("中文");
+        }
+        String w = rsauHelper.encryptPublicByBase64(content.toString());
+        String m = rsauHelper.decryptPrivateByBase64(w);
+        System.out.println(content.toString().equals(m));
     }
 }
