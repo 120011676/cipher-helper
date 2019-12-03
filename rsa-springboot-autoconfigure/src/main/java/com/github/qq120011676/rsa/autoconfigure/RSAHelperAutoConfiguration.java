@@ -43,6 +43,8 @@ public class RSAHelperAutoConfiguration {
             String path = new ClassPathResource(this.rsaHelperProperties.getPublicKeyLocation()).getPath();
             rsauHelper.setRSAPublicKeyByPEM(path);
         }
+        rsauHelper.setTransformation(this.rsaHelperProperties.getTransformation());
+        rsauHelper.setProvider(this.rsaHelperProperties.getProvider());
         return rsauHelper;
     }
 }

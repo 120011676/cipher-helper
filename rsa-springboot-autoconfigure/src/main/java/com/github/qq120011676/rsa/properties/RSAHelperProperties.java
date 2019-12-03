@@ -9,4 +9,6 @@ public class RSAHelperProperties {
     private String publicKeyLocation = "rsa/app-public.pem";
     private String privateKeyLocation = "rsa/app-private.pem";
     private String privateKeyPassword;
+    private String transformation = "RSA/NONE/OAEPPadding";
+    private String provider;
 }
