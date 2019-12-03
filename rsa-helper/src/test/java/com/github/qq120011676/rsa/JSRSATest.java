@@ -15,8 +15,8 @@ public class JSRSATest {
         String path = RSAUHelperTest.class.getResource("/").getPath() + "../../../resources/test/";
         String testPrivateLocation = path + "app_private_key.pem";
         RSAUHelper rsauHelper = new RSAUHelper();
-        rsauHelper.setTransformation("RSA/ECB/OAEPPadding");
-        rsauHelper.setProvider(null);
+//        rsauHelper.setTransformation("RSA/NONE/OAEPPadding");
+//        rsauHelper.setProvider(null);
         rsauHelper.setRSAPrivateKeyByPEM(testPrivateLocation);
         String w = rsauHelper.decryptPrivateByBase64(m);
         System.out.println(w);

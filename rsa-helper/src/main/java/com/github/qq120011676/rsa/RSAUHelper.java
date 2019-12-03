@@ -30,8 +30,8 @@ import java.util.Base64;
 public class RSAUHelper {
     private RSAPublicKey rsaPublicKey;
     private RSAPrivateKey rsaPrivateKey;
-    private String transformation = "RSA/NONE/OAEPWithSHA1AndMGF1Padding";
-    private String provider = "BC";
+    private String transformation = "RSA/NONE/OAEPPadding";
+    private String provider = "";
 
     static {
         Security.addProvider(new BouncyCastleProvider());
