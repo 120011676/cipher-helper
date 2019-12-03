@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+import java.io.InputStream;
 import java.security.Security;
 
 @Configuration
@@ -29,19 +29,21 @@ public class RSAHelperAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(RSAUHelper.class)
-    public RSAUHelper rsauHelper() throws IOException, NoSuchAlgorithmException {
+    public RSAUHelper rsauHelper() throws IOException {
         RSAUHelper rsauHelper = new RSAUHelper();
         if (StringUtils.hasText(this.rsaHelperProperties.getPrivateKeyLocation())) {
-            String path = new ClassPathResource(this.rsaHelperProperties.getPrivateKeyLocation()).getPath();
-            if (StringUtils.hasText(this.rsaHelperProperties.getPrivateKeyPassword())) {
-                rsauHelper.setRSAPrivateKeyByPEM(path, this.rsaHelperProperties.getPrivateKeyPassword());
-            } else {
-                rsauHelper.setRSAPrivateKeyByPEM(path);
+            try (InputStream inputStream = new ClassPathResource(this.rsaHelperProperties.getPrivateKeyLocation()).getInputStream()) {
+                if (StringUtils.hasText(this.rsaHelperProperties.getPrivateKeyPassword())) {
+                    rsauHelper.setRSAPrivateKeyByPEM(inputStream, this.rsaHelperProperties.getPrivateKeyPassword());
+                } else {
+                    rsauHelper.setRSAPrivateKeyByPEM(inputStream);
+                }
             }
         }
         if (StringUtils.hasText(this.rsaHelperProperties.getPublicKeyLocation())) {
-            String path = new ClassPathResource(this.rsaHelperProperties.getPublicKeyLocation()).getPath();
-            rsauHelper.setRSAPublicKeyByPEM(path);
+            try (InputStream inputStream = new ClassPathResource(this.rsaHelperProperties.getPublicKeyLocation()).getInputStream()) {
+                rsauHelper.setRSAPublicKeyByPEM(inputStream);
+            }
         }
         rsauHelper.setTransformation(this.rsaHelperProperties.getTransformation());
         rsauHelper.setProvider(this.rsaHelperProperties.getProvider());

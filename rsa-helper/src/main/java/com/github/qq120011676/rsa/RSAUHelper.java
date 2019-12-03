@@ -17,8 +17,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -46,8 +45,22 @@ public class RSAUHelper {
     }
 
     public void setRSAPublicKeyByPEM(String fileName) throws IOException {
-        PEMParser pemParser = new PEMParser(new FileReader(fileName));
-        Object object = pemParser.readObject();
+        try (FileReader fileReader = new FileReader(fileName)) {
+            this.setRSAPublicKeyByPEM(fileReader);
+        }
+    }
+
+    public void setRSAPublicKeyByPEM(InputStream inputStream) throws IOException {
+        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
+            this.setRSAPublicKeyByPEM(inputStreamReader);
+        }
+    }
+
+    public void setRSAPublicKeyByPEM(Reader reader) throws IOException {
+        Object object;
+        try (PEMParser pemParser = new PEMParser(reader)) {
+            object = pemParser.readObject();
+        }
         SubjectPublicKeyInfo subjectPublicKeyInfo = (SubjectPublicKeyInfo) object;
         JcaPEMKeyConverter jcaPEMKeyConverter = new JcaPEMKeyConverter().setProvider("BC");
         this.rsaPublicKey = (RSAPublicKey) jcaPEMKeyConverter.getPublicKey(subjectPublicKeyInfo);
@@ -58,8 +71,28 @@ public class RSAUHelper {
     }
 
     public void setRSAPrivateKeyByPEM(String fileName, String password) throws IOException {
-        PEMParser pemParser = new PEMParser(new FileReader(fileName));
-        Object object = pemParser.readObject();
+        this.setRSAPrivateKeyByPEM(new FileReader(fileName), password);
+    }
+
+    public void setRSAPrivateKeyByPEM(InputStream inputStream) throws IOException {
+        this.setRSAPrivateKeyByPEM(inputStream, null);
+    }
+
+    public void setRSAPrivateKeyByPEM(InputStream inputStream, String password) throws IOException {
+        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
+            this.setRSAPrivateKeyByPEM(inputStreamReader, password);
+        }
+    }
+
+    public void setRSAPrivateKeyByPEM(Reader reader) throws IOException {
+        this.setRSAPrivateKeyByPEM(reader, null);
+    }
+
+    public void setRSAPrivateKeyByPEM(Reader reader, String password) throws IOException {
+        Object object;
+        try (PEMParser pemParser = new PEMParser(reader)) {
+            object = pemParser.readObject();
+        }
         JcaPEMKeyConverter jcaPEMKeyConverter = new JcaPEMKeyConverter().setProvider("BC");
         KeyPair keyPair;
         if (object instanceof PEMEncryptedKeyPair) {
