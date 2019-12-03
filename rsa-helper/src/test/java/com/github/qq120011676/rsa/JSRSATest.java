@@ -6,14 +6,17 @@ import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 public class JSRSATest {
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
-        String message = "Hello, world!";
-        String m = "2A+QgJVVq44e+6wdstX2K4FuKrFmKwNZVAyi2eooCM7vERuw8qONVohvB1Ci/znFLpw17KbnIBGHo0e3AVLeuNdH4iDzyg/NV4nCgpXE0F9pfKLGKlrnvIWQlGnchCAGDSeo5FwsRNrnzePYF43O1oKMn6xDb9BpngYgdb5oDRXK0JAW6emlpPQ/ZEvLyl6zOQF92GPVO1FkGsBJrFEQV79xJOwnLuKatdOVcixNBAoBIFGQmm4TGjT/k3m8t0Qn3k+iqoR+KlJcF79lJ37y+oA3+ervLErq1tS6/x+kyEMHY8OemFbMz3xLrKShwz+m/W+j6dLGHSNmf4+OTz2fAg==";
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException, NoSuchProviderException {
+        String message = "1";
+        String m = "13+87jT2/mkYnu/vPgtVplA9pC6cKM+WFjdNJlLNY2YdvBhl9xDdZIvGLDlaYcMRc/yQlHrh1jn8+QEfHEReJU/L6x6E40BPjt0iYA/ocjz55c5AKWg7lo88SwePmpM1VsV9MOzehtD6As9m2M+YyknoNWQFaLsRg94Rxnl2gTRD8IAnofAqxdUPtH8sZwNSKUXK5N548tDW2FhGMHVwHvIWFLLwHDgffCtqaahQNR2lZ1emgoR9expB5v8MtTRdETkEiqofxhmowlUxEoWR0MHFOQd9wPzmxJ7exwbifCOPm+TS2aCLwiKej4VaaznsXHwAkm+5fL5SFmxu7UVC+w==";
         String path = RSAUHelperTest.class.getResource("/").getPath() + "../../../resources/test/";
         String testPrivateLocation = path + "app_private_key.pem";
         RSAUHelper rsauHelper = new RSAUHelper();
+        rsauHelper.setTransformation("RSA/ECB/OAEPPadding");
+        rsauHelper.setProvider(null);
         rsauHelper.setRSAPrivateKeyByPEM(testPrivateLocation);
         String w = rsauHelper.decryptPrivateByBase64(m);
         System.out.println(w);

@@ -3,6 +3,7 @@ package com.github.qq120011676.rsa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMDecryptorProvider;
@@ -18,10 +19,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.Security;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
@@ -32,11 +30,11 @@ import java.util.Base64;
 public class RSAUHelper {
     private RSAPublicKey rsaPublicKey;
     private RSAPrivateKey rsaPrivateKey;
-    private static final String TRANSFORMATION = "RSA";
+    private String transformation = "RSA/NONE/OAEPWithSHA1AndMGF1Padding";
+    private String provider = "BC";
 
     static {
         Security.addProvider(new BouncyCastleProvider());
-        Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
 
     public RSAUHelper(RSAPublicKey rsaPublicKey) {
@@ -55,11 +53,11 @@ public class RSAUHelper {
         this.rsaPublicKey = (RSAPublicKey) jcaPEMKeyConverter.getPublicKey(subjectPublicKeyInfo);
     }
 
-    public void setRSAPrivateKeyByPEM(String fileName) throws IOException, NoSuchAlgorithmException {
+    public void setRSAPrivateKeyByPEM(String fileName) throws IOException {
         this.setRSAPrivateKeyByPEM(fileName, null);
     }
 
-    public void setRSAPrivateKeyByPEM(String fileName, String password) throws IOException, NoSuchAlgorithmException {
+    public void setRSAPrivateKeyByPEM(String fileName, String password) throws IOException {
         PEMParser pemParser = new PEMParser(new FileReader(fileName));
         Object object = pemParser.readObject();
         JcaPEMKeyConverter jcaPEMKeyConverter = new JcaPEMKeyConverter().setProvider("BC");
@@ -76,44 +74,51 @@ public class RSAUHelper {
         this.rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
     }
 
-    public String encryptPublicByBase64(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public String encryptPublicByBase64(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
         return Base64.getEncoder().encodeToString(this.encryptPublic(content.getBytes()));
     }
 
-    public byte[] encryptPublic(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+    public byte[] encryptPublic(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
+        Cipher cipher = this.createCipher();
         cipher.init(Cipher.ENCRYPT_MODE, this.rsaPublicKey);
         return cipher.doFinal(bytes);
     }
 
-    public String decryptPrivateByBase64(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public String decryptPrivateByBase64(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
         return new String(this.decryptPrivate(Base64.getDecoder().decode(content)));
     }
 
-    public byte[] decryptPrivate(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+    public byte[] decryptPrivate(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
+        Cipher cipher = this.createCipher();
         cipher.init(Cipher.DECRYPT_MODE, this.rsaPrivateKey);
         return cipher.doFinal(bytes);
     }
 
-    public String encryptPrivateByBase64(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public String encryptPrivateByBase64(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
         return Base64.getEncoder().encodeToString(this.encryptPrivate(content.getBytes()));
     }
 
-    public byte[] encryptPrivate(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+    public byte[] encryptPrivate(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
+        Cipher cipher = this.createCipher();
         cipher.init(Cipher.ENCRYPT_MODE, this.rsaPrivateKey);
         return cipher.doFinal(bytes);
     }
 
-    public String decryptPublic(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public String decryptPublic(String content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
         return new String(this.decryptPublic(Base64.getDecoder().decode(content)));
     }
 
-    public byte[] decryptPublic(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+    public byte[] decryptPublic(byte[] bytes) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, NoSuchProviderException {
+        Cipher cipher = this.createCipher();
         cipher.init(Cipher.DECRYPT_MODE, this.rsaPublicKey);
         return cipher.doFinal(bytes);
     }
 
+    private Cipher createCipher() throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
+        if (StringUtils.isNotBlank(this.provider)) {
+            return Cipher.getInstance(this.transformation, this.provider);
+        } else {
+            return Cipher.getInstance(this.transformation);
+        }
+    }
 }

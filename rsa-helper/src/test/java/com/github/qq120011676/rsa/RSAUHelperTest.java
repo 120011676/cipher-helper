@@ -6,10 +6,11 @@ import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 
 public class RSAUHelperTest {
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException, NoSuchProviderException {
         String path = RSAUHelperTest.class.getResource("/").getPath() + "../../../resources/test/";
         String testPublicLocation = path + "test.pub";
         String testPrivateLocation = path + "test";
@@ -17,6 +18,8 @@ public class RSAUHelperTest {
 
 
         RSAUHelper rsauHelper = new RSAUHelper();
+        rsauHelper.setTransformation("RSA/ECB/OAEPPadding");
+        rsauHelper.setProvider(null);
         rsauHelper.setRSAPublicKeyByPEM(appPublicLocation);
         rsauHelper.setRSAPrivateKeyByPEM(testPrivateLocation);
         String testPasswordPublicLocation = path + "test_password.pub";
@@ -26,7 +29,7 @@ public class RSAUHelperTest {
         testPasswordPrivateLocation = path + "app_private_key.pem";
         rsauHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation);
         StringBuilder content = new StringBuilder();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             content.append("中文");
         }
         System.out.println(content);
