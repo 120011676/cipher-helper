@@ -1,5 +1,5 @@
 rootProject.name = 'rsa-helper'
 
-include 'rsa-springboot-autoconfigure'
-include 'rsa-springboot-starter'
+include 'rsa-spring-boot-autoconfigure'
+include 'rsa-spring-boot-starter'
 include 'rsa-helper'
