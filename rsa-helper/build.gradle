@@ -1,6 +1,6 @@
 dependencies {
-    implementation 'org.bouncycastle:bcpkix-jdk15on:latest.release'
-    implementation 'org.apache.commons:commons-text:latest.release'
+    api 'org.bouncycastle:bcpkix-jdk15on:latest.release'
+    api 'org.apache.commons:commons-text:latest.release'
     compileOnly 'org.projectlombok:lombok:latest.release'
     annotationProcessor 'org.projectlombok:lombok:latest.release'
 }
