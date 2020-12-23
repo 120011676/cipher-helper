@@ -26,7 +26,7 @@ import java.util.Base64;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RSAUHelper {
+public class RSAHelper {
     private RSAPublicKey rsaPublicKey;
     private RSAPrivateKey rsaPrivateKey;
     private String transformation = "RSA/NONE/OAEPPadding";
@@ -36,11 +36,11 @@ public class RSAUHelper {
         Security.addProvider(new BouncyCastleProvider());
     }
 
-    public RSAUHelper(RSAPublicKey rsaPublicKey) {
+    public RSAHelper(RSAPublicKey rsaPublicKey) {
         this.rsaPublicKey = rsaPublicKey;
     }
 
-    public RSAUHelper(RSAPrivateKey rsaPrivateKey) {
+    public RSAHelper(RSAPrivateKey rsaPrivateKey) {
         this.rsaPrivateKey = rsaPrivateKey;
     }
 

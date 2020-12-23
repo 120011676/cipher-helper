@@ -9,32 +9,32 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 
-public class RSAUHelperTest {
+public class RSAHelperTest {
     public static void main(String[] args) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException, NoSuchProviderException {
-        String path = RSAUHelperTest.class.getResource("/").getPath() + "../../../resources/test/";
+        String path = RSAHelperTest.class.getResource("/").getPath() + "../../../resources/test/";
         String testPublicLocation = path + "test.pub";
         String testPrivateLocation = path + "test";
         String appPublicLocation = path + "app_public_key.pem";
 
 
-        RSAUHelper rsauHelper = new RSAUHelper();
-        rsauHelper.setTransformation("RSA/ECB/OAEPPadding");
-        rsauHelper.setProvider(null);
-        rsauHelper.setRSAPublicKeyByPEM(appPublicLocation);
-        rsauHelper.setRSAPrivateKeyByPEM(testPrivateLocation);
+        RSAHelper rsaHelper = new RSAHelper();
+        rsaHelper.setTransformation("RSA/ECB/OAEPPadding");
+        rsaHelper.setProvider(null);
+        rsaHelper.setRSAPublicKeyByPEM(appPublicLocation);
+        rsaHelper.setRSAPrivateKeyByPEM(testPrivateLocation);
         String testPasswordPublicLocation = path + "test_password.pub";
         String testPasswordPrivateLocation = path + "test_password";
         String password = "123456";
-        rsauHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation, password);
+        rsaHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation, password);
         testPasswordPrivateLocation = path + "app_private_key.pem";
-        rsauHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation);
+        rsaHelper.setRSAPrivateKeyByPEM(testPasswordPrivateLocation);
         StringBuilder content = new StringBuilder();
         for (int i = 0; i < 1000; i++) {
             content.append("中文");
         }
         System.out.println(content);
-        String w = rsauHelper.encryptPublicByBase64(content.toString());
-        String m = rsauHelper.decryptPrivateByBase64(w);
+        String w = rsaHelper.encryptPublicByBase64(content.toString());
+        String m = rsaHelper.decryptPrivateByBase64(w);
         System.out.println(content.toString().equals(m));
     }
 }

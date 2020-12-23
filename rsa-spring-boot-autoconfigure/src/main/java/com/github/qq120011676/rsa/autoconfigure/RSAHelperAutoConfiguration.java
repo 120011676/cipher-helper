@@ -1,6 +1,6 @@
 package com.github.qq120011676.rsa.autoconfigure;
 
-import com.github.qq120011676.rsa.RSAUHelper;
+import com.github.qq120011676.rsa.RSAHelper;
 import com.github.qq120011676.rsa.properties.RSAHelperProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,32 +15,32 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Configuration
-@ConditionalOnClass(RSAUHelper.class)
+@ConditionalOnClass(RSAHelper.class)
 @EnableConfigurationProperties(RSAHelperProperties.class)
 public class RSAHelperAutoConfiguration {
     @Resource
     private RSAHelperProperties rsaHelperProperties;
 
     @Bean
-    @ConditionalOnMissingBean(RSAUHelper.class)
-    public RSAUHelper rsauHelper() throws IOException {
-        RSAUHelper rsauHelper = new RSAUHelper();
+    @ConditionalOnMissingBean(RSAHelper.class)
+    public RSAHelper rsaHelper() throws IOException {
+        RSAHelper rsaHelper = new RSAHelper();
         if (StringUtils.hasText(this.rsaHelperProperties.getPrivateKeyLocation())) {
             try (InputStream inputStream = new ClassPathResource(this.rsaHelperProperties.getPrivateKeyLocation()).getInputStream()) {
                 if (StringUtils.hasText(this.rsaHelperProperties.getPrivateKeyPassword())) {
-                    rsauHelper.setRSAPrivateKeyByPEM(inputStream, this.rsaHelperProperties.getPrivateKeyPassword());
+                    rsaHelper.setRSAPrivateKeyByPEM(inputStream, this.rsaHelperProperties.getPrivateKeyPassword());
                 } else {
-                    rsauHelper.setRSAPrivateKeyByPEM(inputStream);
+                    rsaHelper.setRSAPrivateKeyByPEM(inputStream);
                 }
             }
         }
         if (StringUtils.hasText(this.rsaHelperProperties.getPublicKeyLocation())) {
             try (InputStream inputStream = new ClassPathResource(this.rsaHelperProperties.getPublicKeyLocation()).getInputStream()) {
-                rsauHelper.setRSAPublicKeyByPEM(inputStream);
+                rsaHelper.setRSAPublicKeyByPEM(inputStream);
             }
         }
-        rsauHelper.setTransformation(this.rsaHelperProperties.getTransformation());
-        rsauHelper.setProvider(this.rsaHelperProperties.getProvider());
-        return rsauHelper;
+        rsaHelper.setTransformation(this.rsaHelperProperties.getTransformation());
+        rsaHelper.setProvider(this.rsaHelperProperties.getProvider());
+        return rsaHelper;
     }
 }
