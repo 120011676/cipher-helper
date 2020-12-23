@@ -1,4 +1,4 @@
-package com.github.qq120011676.rsa.properties;
+package com.github.qq120011676.cipher.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

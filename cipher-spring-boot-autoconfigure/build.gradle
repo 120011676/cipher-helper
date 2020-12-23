@@ -1,5 +1,5 @@
 dependencies {
-    api project(':rsa-helper')
+    api project(':cipher')
     implementation "org.springframework.boot:spring-boot-autoconfigure:latest.release"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:latest.release"
     compileOnly 'org.projectlombok:lombok:latest.release'

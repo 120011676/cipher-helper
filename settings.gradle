@@ -1,5 +1,5 @@
-rootProject.name = 'rsa-helper'
+rootProject.name = 'cipher-helper'
 
-include 'rsa-spring-boot-autoconfigure'
-include 'rsa-spring-boot-starter'
-include 'rsa-helper'
+include 'cipher-spring-boot-autoconfigure'
+include 'cipher-spring-boot-starter'
+include 'cipher'

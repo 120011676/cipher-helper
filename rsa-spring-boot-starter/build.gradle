@@ -1,3 +1,0 @@
-dependencies {
-    api project(':rsa-spring-boot-autoconfigure')
-}
