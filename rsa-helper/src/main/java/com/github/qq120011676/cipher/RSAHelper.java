@@ -1,9 +1,9 @@
-package com.github.qq120011676.rsa;
+package com.github.qq120011676.cipher;
 
+import com.github.qq120011676.utils.CipherHelper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMDecryptorProvider;
@@ -314,10 +314,6 @@ public class RSAHelper {
     }
 
     private Cipher createCipher() throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
-        if (StringUtils.isNotBlank(this.provider)) {
-            return Cipher.getInstance(this.transformation, this.provider);
-        } else {
-            return Cipher.getInstance(this.transformation);
-        }
+        return new CipherHelper().createCipher(this.transformation, this.provider);
     }
 }

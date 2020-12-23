@@ -1,6 +1,6 @@
 package com.github.qq120011676.rsa.autoconfigure;
 
-import com.github.qq120011676.rsa.RSAHelper;
+import com.github.qq120011676.cipher.RSAHelper;
 import com.github.qq120011676.rsa.properties.RSAHelperProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
