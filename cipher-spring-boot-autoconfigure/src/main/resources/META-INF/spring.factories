@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.github.qq120011676.cipher.autoconfigure.RSAHelperAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.github.qq120011676.cipher.autoconfigure.RSAHelperAutoConfiguration,\
+  com.github.qq120011676.cipher.autoconfigure.AESHelperAutoConfiguration

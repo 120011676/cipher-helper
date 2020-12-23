@@ -23,7 +23,7 @@ import java.util.Base64;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AesHelper {
+public class AESHelper {
     private static final String ALGORITHM = "AES";
     private String transformation = "AES/CFB/PKCS5Padding";
 

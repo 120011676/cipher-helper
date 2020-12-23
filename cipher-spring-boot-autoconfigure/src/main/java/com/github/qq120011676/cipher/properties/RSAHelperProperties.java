@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * 自动注入RSAHelper配置类
  */
 @Data
-@ConfigurationProperties(prefix = "rsa")
+@ConfigurationProperties(prefix = "cipher.rsa")
 public class RSAHelperProperties {
     private String publicKeyLocation = "rsa/app-public.pem";
     private String privateKeyLocation = "rsa/app-private.pem";
