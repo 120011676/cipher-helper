@@ -14,6 +14,9 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * 自动注入RSAHelper类
+ */
 @Configuration
 @ConditionalOnClass(RSAHelper.class)
 @EnableConfigurationProperties(RSAHelperProperties.class)
@@ -21,6 +24,12 @@ public class RSAHelperAutoConfiguration {
     @Resource
     private RSAHelperProperties rsaHelperProperties;
 
+    /**
+     * 自动注入RSAHelper对象
+     *
+     * @return RSAHelper
+     * @throws IOException 异常
+     */
     @Bean
     @ConditionalOnMissingBean(RSAHelper.class)
     public RSAHelper rsaHelper() throws IOException {
